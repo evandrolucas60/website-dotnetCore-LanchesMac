@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using LanchesMac.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace LanchesMac.Context
 {
@@ -7,5 +8,10 @@ namespace LanchesMac.Context
         protected AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
+
+        //difines the table that will be create by the EntityFrameworkCore
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Snack> Snacks { get; set; }
+
     }
 }
