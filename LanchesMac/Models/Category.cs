@@ -1,9 +1,22 @@
-﻿namespace LanchesMac.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace LanchesMac.Models
 {
+    [Table("Categories")]
     public class Category
     {
-        public int CategoryID { get; set; }
+        [Key]
+        public int CategoryId { get; set; }
+
+        [StringLength(100, ErrorMessage ="O tamanho máximo é 100 caracteres")]
+        [Required(ErrorMessage ="Informe o nome da categoria")]
+        [Display(Name ="Nome")]
         public string CategoryName { get; set; }
+
+        [StringLength(200, ErrorMessage = "O tamanho máximo é 100 caracteres")]
+        [Required(ErrorMessage = "Informe a descrição da categoria")]
+        [Display(Name = "Descrição")]
         public string Description { get; set; }
 
         public List<Snack> Snacks { get; set; }
