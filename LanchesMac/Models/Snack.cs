@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LanchesMac.Models
 {
-    [Table("Lanches")]
+    [Table("Snacks")]
     public class Snack
     {
         [Key]

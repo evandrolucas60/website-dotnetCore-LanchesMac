@@ -25,7 +25,7 @@ namespace LanchesMac.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Lanches",
+                name: "Snacks",
                 columns: table => new
                 {
                     SnackId = table.Column<int>(type: "int", nullable: false)
@@ -53,7 +53,7 @@ namespace LanchesMac.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Lanches_CategoryId",
-                table: "Lanches",
+                table: "Snacks",
                 column: "CategoryId");
         }
 
@@ -61,7 +61,7 @@ namespace LanchesMac.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Lanches");
+                name: "Snacks");
 
             migrationBuilder.DropTable(
                 name: "Categories");
