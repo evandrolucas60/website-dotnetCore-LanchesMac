@@ -59,5 +59,30 @@ namespace LanchesMac.Models
             }
             _context.SaveChanges();
         }
+
+        public int RemoveFromCart(Snack snack)
+        {
+            var cartItem = _context.CartItems.SingleOrDefault(
+                s => s.Snack.SnackId == snack.SnackId &&
+                s.CartId == CartId);
+
+            var localQuantity =  0;
+
+            if (cartItem != null)
+            {
+                if (cartItem.Quantity > 1) 
+                {
+                    cartItem.Quantity--;
+                    localQuantity = cartItem.Quantity;
+                }
+                else
+                {
+                    _context.CartItems.Remove(cartItem);
+                }
+            }
+
+            _context.SaveChanges();
+            return localQuantity;
+        }
     }
 }
