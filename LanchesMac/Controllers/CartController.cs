@@ -43,7 +43,7 @@ namespace LanchesMac.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult RemoveItemToCart(int snackId)
+        public IActionResult RemoveItemFromCart(int snackId)
         {
             var selectedSnack = _snackRepository.Snacks
                 .FirstOrDefault(p => p.SnackId == snackId);
