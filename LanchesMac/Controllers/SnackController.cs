@@ -1,4 +1,5 @@
-﻿using LanchesMac.Repository.Interfaces;
+﻿using LanchesMac.Models;
+using LanchesMac.Repository.Interfaces;
 using LanchesMac.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,13 +14,40 @@ namespace LanchesMac.Controllers
             _snackRepository = snackRepository;
         }
 
-        public IActionResult List()
+        public IActionResult List(string category)
         {
-            //var snacks = _snackRepository.Snacks;
-            //return View(snacks);
-            var snackListViewModel = new SnackListViewModel();
-            snackListViewModel.Snacks = _snackRepository.Snacks;
-            snackListViewModel.CurrentCategory = "Categoria atual";
+            IEnumerable<Snack> snacks;
+            string currentCategory = string.Empty;
+
+            if (string.IsNullOrEmpty(category))
+            {
+                snacks = _snackRepository.Snacks.OrderBy(l => l.SnackId);
+                currentCategory = "Todos os lanches";
+            }
+            else
+            {
+                if (string.Equals("Normal", category, StringComparison.OrdinalIgnoreCase)) 
+                {
+                    snacks = _snackRepository.Snacks
+                        .Where(l => l.Category.CategoryName.Equals("Normal"))
+                        .OrderBy(l => l.SnackName);
+                }
+                else
+                {
+                    snacks = _snackRepository.Snacks
+                        .Where(l => l.Category.CategoryName.Equals("Natural"))
+                        .OrderBy(l => l.SnackName);
+                }
+
+                currentCategory = category;
+            }
+
+            var snackListViewModel = new SnackListViewModel
+            {
+                Snacks = snacks,
+                CurrentCategory = currentCategory,
+
+            };
 
             return View(snackListViewModel);
 
