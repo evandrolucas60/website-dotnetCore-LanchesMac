@@ -2,6 +2,7 @@
 using LanchesMac.Models;
 using LanchesMac.Repository;
 using LanchesMac.Repository.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace LanchesMac;
@@ -58,6 +59,11 @@ public class Startup
 
         app.UseEndpoints(endpoints =>
         {
+            endpoints.MapControllerRoute(
+                name: "categoryFilter",
+                pattern: "Snack/{action}/{category?}",
+                defaults: new { Controller = "Snack", action = "List" });
+
             endpoints.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
