@@ -55,5 +55,12 @@ namespace LanchesMac.Controllers
             return View(snackListViewModel);
 
         }
+
+        public IActionResult Details(int snackId) 
+        {
+            var snack = _snackRepository.Snacks.FirstOrDefault(s => s.SnackId == snackId);
+
+            return View(snack);
+        }
     }
 }

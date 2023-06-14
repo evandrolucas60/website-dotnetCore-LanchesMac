@@ -2,11 +2,10 @@
 
 
 <div class="container">
-    <div class="row">
-        <img src="~/images/Full-Cart-icon.png" />
+    <div class="row checkoutForm">
 
         <div>
-            <h4>Seu carrinho de compras: </h4>
+            <img src="~/images/Full-Cart-icon.png" width="30" height="35" /> <h4>Seu carrinho de compras: </h4>
         </div>
 
         <table class="table table-bordered table-striped">
@@ -35,7 +34,7 @@
                         <td class="text-center">
                             <a asp-controller="Cart" asp-action="RemoveItemFromCart"
                                asp-route-snackId="@item.Snack.SnackId">
-                                <img src="~/images/remove (2).png" />
+                                <img src="~/images/remove (2).png" width="20px" height="20px" />
                             </a>
                         </td>
                        
