@@ -62,5 +62,38 @@ namespace LanchesMac.Controllers
 
             return View(snack);
         }
+
+        public ViewResult Search(string searchString) 
+        {
+            IEnumerable<Snack> snacks;
+            string currentCategory = string.Empty;
+            
+            if (string.IsNullOrEmpty(searchString))
+            {
+                snacks = _snackRepository.Snacks.OrderBy(p => p.SnackId);
+                currentCategory = "Todos os lanches";
+            }
+            else
+            {
+                snacks = _snackRepository.Snacks
+                    .Where(p => p.SnackName.ToLower()
+                    .Contains(searchString.ToLower()));
+
+                if (snacks.Any() )
+                {
+                    currentCategory = "Lanches";
+                }
+                else
+                {
+                    currentCategory = "Nenhum lanche foi encontrado";
+                }
+            }
+
+            return View("~/Views/Snack/List.cshtml", new SnackListViewModel
+            {
+                Snacks = snacks,
+                CurrentCategory = currentCategory
+            });
+        }
     }
 }
