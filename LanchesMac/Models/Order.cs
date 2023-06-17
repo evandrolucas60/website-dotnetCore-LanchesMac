@@ -13,7 +13,7 @@ namespace LanchesMac.Models
 
         [Required(ErrorMessage = "Informe o sobrenome")]
         [StringLength(50)]
-        public string lastname { get; set; }
+        public string Lastname { get; set; }
 
         [Required(ErrorMessage = "Informe o seu endereço")]
         [StringLength(100)]
