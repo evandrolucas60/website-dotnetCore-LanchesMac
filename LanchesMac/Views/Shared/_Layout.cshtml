@@ -17,13 +17,16 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex ">
-                    <form class="navbar-form navbar-right" asp-controller="Snack" asp-action="Search" method="get">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Procurar produto" name="searchString" value="@ViewData["searchString"]">
-                        </div>
-                    </form>
+                <div class="navbar-collapse collapse d-sm-inline-flex">
+                    
                     <ul class="navbar-nav flex-grow-1 justify-content-end">
+                        <li>
+                            <form class="navbar-form navbar-right" asp-controller="Snack" asp-action="Search" method="get">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Procurar produto" name="searchString" value="@ViewData["searchString"]">
+                                </div>
+                            </form>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
