@@ -1,6 +1,7 @@
 ﻿using LanchesMac.Models;
 using LanchesMac.Repository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor.Compilation;
 
 namespace LanchesMac.Controllers
 {
@@ -24,7 +25,48 @@ namespace LanchesMac.Controllers
         [HttpPost]
         public IActionResult Checkout(Order order)
         {
-            return View();
+            int orderItensTotal = 0;
+            decimal orderPriceTotal = 0.0m;
+
+            //obter os itens do carrinho de compra do cliente
+            List<CartItem> items = _cart.GetCartItens(); 
+            _cart.CartItems = items;
+
+            //verifica se existem itens de pedido
+            if (_cart.CartItems.Count == 0)
+            {
+                ModelState.AddModelError("", "Seu carrinho esta vazio, que tal incluir um lanche...");
+            }
+
+            //calcular o total de itens e o total do pedido 
+            foreach (var item in items)
+            {
+                orderItensTotal += item.Quantity;
+                orderPriceTotal += (item.Snack.Price * item.Quantity);
+            }
+
+            //atribuir os valores obtidos ao pedido
+            order.TotalOrderItems = orderItensTotal;
+            order.TotalOrder = orderPriceTotal;
+
+            //validar os dados do pedido
+            if (ModelState.IsValid)
+            {
+                //criar o pedido e os detalhes
+                _orderRepository.createOrder(order);
+
+                //define mensagens ao cliente
+                ViewBag.CheckoutCompleteMessage = "Obrigado pelo seu pedido :)";
+                ViewBag.TotalOrder = _cart.GetCartTotal();
+
+                //limpa o carrinho do cliente
+                _cart.ClearCart();
+
+                //exibe a view com os dados do cliente e do pedido
+                return View("~/Views/Order/CheckoutComplete.cshtml", order);
+            }
+
+            return View(order);
         }
 
     }
