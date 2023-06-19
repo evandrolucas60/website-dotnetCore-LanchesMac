@@ -30,7 +30,7 @@ namespace LanchesMac.Repository
                     Quantity = item.Quantity,
                     SnackId = item.Snack.SnackId,
                     OrderId = order.OrderId,
-                    Price = item.Snack.Price
+                    Preco = item.Snack.Price
                 };
 
                 _appDbContext.OrderDetails.Add(orderDetail);

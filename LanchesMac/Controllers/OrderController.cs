@@ -63,7 +63,7 @@ namespace LanchesMac.Controllers
                 _cart.ClearCart();
 
                 //exibe a view com os dados do cliente e do pedido
-                return View("~/Views/Order/CheckoutComplete.cshtml", order);
+                return View("~/Views/Order/CompleteCheckout.cshtml", order);
             }
 
             return View(order);
