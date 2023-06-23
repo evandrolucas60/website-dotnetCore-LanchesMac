@@ -50,5 +50,31 @@ namespace LanchesMac.Controllers
             ModelState.AddModelError("", "Falha ao realizar o login!!");
             return View(loginVM);
         }
+
+
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(LoginViewModel registerVM)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new IdentityUser { UserName = registerVM.UserName };
+                var result = await _userManager.CreateAsync(user, registerVM.PassWord);
+
+                if (result.Succeeded) 
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+                else
+                {
+                    this.ModelState.AddModelError("Register", "Falha ao registrar o usuário");
+                }
+            }
+        }
+
     }
 }
