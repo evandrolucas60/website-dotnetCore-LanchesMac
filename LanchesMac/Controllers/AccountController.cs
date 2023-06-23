@@ -74,6 +74,8 @@ namespace LanchesMac.Controllers
                     this.ModelState.AddModelError("Register", "Falha ao registrar o usuário");
                 }
             }
+
+            return View(registerVM);
         }
 
     }
