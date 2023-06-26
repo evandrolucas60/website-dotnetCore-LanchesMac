@@ -43,7 +43,7 @@ namespace LanchesMac.Controllers
                     {
                         return RedirectToAction("Index", "Home");
                     }
-                    return RedirectToAction(loginVM.ReturnUrl);
+                    return Redirect(loginVM.ReturnUrl);
                 }
             }
 
@@ -76,6 +76,14 @@ namespace LanchesMac.Controllers
             }
 
             return View(registerVM);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            HttpContext.Session.Clear();
+            HttpContext.User = null;
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
 
     }
