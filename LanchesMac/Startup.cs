@@ -32,6 +32,15 @@ public class Startup
         services.AddTransient<IOrderRepository, OrderRepository>();
         services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
 
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy("Admin",
+                policy =>
+                {
+                    policy.RequireRole("Admin");
+                });
+        });
+
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         services.AddScoped(sp => Cart.GetCart(sp));
 
