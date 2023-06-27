@@ -18,9 +18,19 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex">
-                    
+
                     <ul class="navbar-nav flex-grow-1 justify-content-end">
-                        @await Html.PartialAsync("_LoginPartial")
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="Admin" asp-controller="Admin" asp-action="Index">Admin</a>
+                            </li>
+                        }
+
+                        <li>
+                            @await Html.PartialAsync("_LoginPartial")
+                        </li>
+
                         <li>
                             <form class="navbar-form navbar-right" asp-controller="Snack" asp-action="Search" method="get">
                                 <div class="form-group">
@@ -31,8 +41,8 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                       @*<li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Snack" asp-action="List">Lanches</a>
+                        @*<li class="nav-item">
+                        <a class="nav-link text-light" asp-area="" asp-controller="Snack" asp-action="List">Lanches</a>
                         </li>*@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Contact" asp-action="Index">Contato</a>
