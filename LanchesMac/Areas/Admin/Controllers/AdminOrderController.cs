@@ -13,85 +13,85 @@ namespace LanchesMac.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles ="Admin")]
-    public class AdminCategoryController : Controller
+    public class AdminOrderController : Controller
     {
         private readonly AppDbContext _context;
 
-        public AdminCategoryController(AppDbContext context)
+        public AdminOrderController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: Admin/AdminCategory
+        // GET: Admin/AdminOrder
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Categories.ToListAsync());
+              return View(await _context.Orders.ToListAsync());
         }
 
-        // GET: Admin/AdminCategory/Details/5
+        // GET: Admin/AdminOrder/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Categories == null)
+            if (id == null || _context.Orders == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Categories
-                .FirstOrDefaultAsync(m => m.CategoryId == id);
-            if (category == null)
+            var order = await _context.Orders
+                .FirstOrDefaultAsync(m => m.OrderId == id);
+            if (order == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(order);
         }
 
-        // GET: Admin/AdminCategory/Create
+        // GET: Admin/AdminOrder/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/AdminCategory/Create
+        // POST: Admin/AdminOrder/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CategoryId,CategoryName,Description")] Category category)
+        public async Task<IActionResult> Create([Bind("OrderId,Name,Lastname,Address1,Address2,ZipCode,State,City,Telephone,Email,OrderDispatched,OrderDeliveredIn")] Order order)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(category);
+                _context.Add(order);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            return View(order);
         }
 
-        // GET: Admin/AdminCategory/Edit/5
+        // GET: Admin/AdminOrder/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Categories == null)
+            if (id == null || _context.Orders == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Categories.FindAsync(id);
-            if (category == null)
+            var order = await _context.Orders.FindAsync(id);
+            if (order == null)
             {
                 return NotFound();
             }
-            return View(category);
+            return View(order);
         }
 
-        // POST: Admin/AdminCategory/Edit/5
+        // POST: Admin/AdminOrder/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,CategoryName,Description")] Category category)
+        public async Task<IActionResult> Edit(int id, [Bind("OrderId,Name,Lastname,Address1,Address2,ZipCode,State,City,Telephone,Email,OrderDispatched,OrderDeliveredIn")] Order order)
         {
-            if (id != category.CategoryId)
+            if (id != order.OrderId)
             {
                 return NotFound();
             }
@@ -100,12 +100,12 @@ namespace LanchesMac.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(category);
+                    _context.Update(order);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategoryExists(category.CategoryId))
+                    if (!OrderExists(order.OrderId))
                     {
                         return NotFound();
                     }
@@ -116,49 +116,49 @@ namespace LanchesMac.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            return View(order);
         }
 
-        // GET: Admin/AdminCategory/Delete/5
+        // GET: Admin/AdminOrder/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Categories == null)
+            if (id == null || _context.Orders == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Categories
-                .FirstOrDefaultAsync(m => m.CategoryId == id);
-            if (category == null)
+            var order = await _context.Orders
+                .FirstOrDefaultAsync(m => m.OrderId == id);
+            if (order == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(order);
         }
 
-        // POST: Admin/AdminCategory/Delete/5
+        // POST: Admin/AdminOrder/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Categories == null)
+            if (_context.Orders == null)
             {
-                return Problem("Entity set 'AppDbContext.Categories'  is null.");
+                return Problem("Entity set 'AppDbContext.Orders'  is null.");
             }
-            var category = await _context.Categories.FindAsync(id);
-            if (category != null)
+            var order = await _context.Orders.FindAsync(id);
+            if (order != null)
             {
-                _context.Categories.Remove(category);
+                _context.Orders.Remove(order);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CategoryExists(int id)
+        private bool OrderExists(int id)
         {
-          return _context.Categories.Any(e => e.CategoryId == id);
+          return _context.Orders.Any(e => e.OrderId == id);
         }
     }
 }

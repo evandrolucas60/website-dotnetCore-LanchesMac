@@ -13,85 +13,90 @@ namespace LanchesMac.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles ="Admin")]
-    public class AdminCategoryController : Controller
+    public class AdminSnacksController : Controller
     {
         private readonly AppDbContext _context;
 
-        public AdminCategoryController(AppDbContext context)
+        public AdminSnacksController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: Admin/AdminCategory
+        // GET: Admin/AdminSnacks
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Categories.ToListAsync());
+            var appDbContext = _context.Snacks.Include(s => s.Category);
+            return View(await appDbContext.ToListAsync());
         }
 
-        // GET: Admin/AdminCategory/Details/5
+        // GET: Admin/AdminSnacks/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Categories == null)
+            if (id == null || _context.Snacks == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Categories
-                .FirstOrDefaultAsync(m => m.CategoryId == id);
-            if (category == null)
+            var snack = await _context.Snacks
+                .Include(s => s.Category)
+                .FirstOrDefaultAsync(m => m.SnackId == id);
+            if (snack == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(snack);
         }
 
-        // GET: Admin/AdminCategory/Create
+        // GET: Admin/AdminSnacks/Create
         public IActionResult Create()
         {
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
             return View();
         }
 
-        // POST: Admin/AdminCategory/Create
+        // POST: Admin/AdminSnacks/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CategoryId,CategoryName,Description")] Category category)
+        public async Task<IActionResult> Create([Bind("SnackId,SnackName,ShortDescription,DetailDescription,Price,ImageUrl,ImageThumbnailUrl,IsFavoriteSnack,InStock,CategoryId")] Snack snack)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(category);
+                _context.Add(snack);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", snack.CategoryId);
+            return View(snack);
         }
 
-        // GET: Admin/AdminCategory/Edit/5
+        // GET: Admin/AdminSnacks/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Categories == null)
+            if (id == null || _context.Snacks == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Categories.FindAsync(id);
-            if (category == null)
+            var snack = await _context.Snacks.FindAsync(id);
+            if (snack == null)
             {
                 return NotFound();
             }
-            return View(category);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", snack.CategoryId);
+            return View(snack);
         }
 
-        // POST: Admin/AdminCategory/Edit/5
+        // POST: Admin/AdminSnacks/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,CategoryName,Description")] Category category)
+        public async Task<IActionResult> Edit(int id, [Bind("SnackId,SnackName,ShortDescription,DetailDescription,Price,ImageUrl,ImageThumbnailUrl,IsFavoriteSnack,InStock,CategoryId")] Snack snack)
         {
-            if (id != category.CategoryId)
+            if (id != snack.SnackId)
             {
                 return NotFound();
             }
@@ -100,12 +105,12 @@ namespace LanchesMac.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(category);
+                    _context.Update(snack);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategoryExists(category.CategoryId))
+                    if (!SnackExists(snack.SnackId))
                     {
                         return NotFound();
                     }
@@ -116,49 +121,51 @@ namespace LanchesMac.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", snack.CategoryId);
+            return View(snack);
         }
 
-        // GET: Admin/AdminCategory/Delete/5
+        // GET: Admin/AdminSnacks/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Categories == null)
+            if (id == null || _context.Snacks == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Categories
-                .FirstOrDefaultAsync(m => m.CategoryId == id);
-            if (category == null)
+            var snack = await _context.Snacks
+                .Include(s => s.Category)
+                .FirstOrDefaultAsync(m => m.SnackId == id);
+            if (snack == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(snack);
         }
 
-        // POST: Admin/AdminCategory/Delete/5
+        // POST: Admin/AdminSnacks/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Categories == null)
+            if (_context.Snacks == null)
             {
-                return Problem("Entity set 'AppDbContext.Categories'  is null.");
+                return Problem("Entity set 'AppDbContext.Snacks'  is null.");
             }
-            var category = await _context.Categories.FindAsync(id);
-            if (category != null)
+            var snack = await _context.Snacks.FindAsync(id);
+            if (snack != null)
             {
-                _context.Categories.Remove(category);
+                _context.Snacks.Remove(snack);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CategoryExists(int id)
+        private bool SnackExists(int id)
         {
-          return _context.Categories.Any(e => e.CategoryId == id);
+          return _context.Snacks.Any(e => e.SnackId == id);
         }
     }
 }
