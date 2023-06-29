@@ -6,6 +6,7 @@ using LanchesMac.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ReflectionIT.Mvc.Paging;
 
 namespace LanchesMac;
 public class Startup
@@ -45,6 +46,12 @@ public class Startup
         services.AddScoped(sp => Cart.GetCart(sp));
 
         services.AddControllersWithViews();
+
+        services.AddPaging(options =>
+        {
+            options.ViewName = "Bootstrap4";
+            options.PageParameterName = "pageindex";
+        });
 
         //habilitar o cache
         services.AddMemoryCache();
