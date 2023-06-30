@@ -47,6 +47,7 @@ namespace LanchesMac.Models
         public bool InStock { get; set; }
 
         //foreign key
+        [Display(Name ="Categorias")]
         public int CategoryId { get; set; }
         public virtual Category Category { get; set; }
 

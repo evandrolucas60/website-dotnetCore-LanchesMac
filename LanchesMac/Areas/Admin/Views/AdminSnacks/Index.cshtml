@@ -1,10 +1,21 @@
-﻿@model IEnumerable<LanchesMac.Models.Snack>
+﻿@model ReflectionIT.Mvc.Paging.PagingList<LanchesMac.Models.Snack>
 
 @{
     ViewData["Title"] = "Index";
 }
 
 <h1>Index</h1>
+
+<form method="get" class="form-inline">
+    <input name="filter" class="form-control" placeholder="filter" value="@Model.RouteValue["Filter"]" />
+    <button type="submit" class="btn btn-info">Procurar</button>
+</form>
+
+Total de Lanches : @Model.TotalRecordCount
+
+<div>
+    <vc:pager paging-list="@Model"></vc:pager>
+</div>
 
 <p>
     <a asp-action="Create">Criar Novo Lanche</a>
@@ -19,16 +30,7 @@
                 @Html.DisplayNameFor(model => model.ShortDescription)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DetailDescription)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageUrl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageThumbnailUrl)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.IsFavoriteSnack)
@@ -52,17 +54,7 @@
                 @Html.DisplayFor(modelItem => item.ShortDescription)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DetailDescription)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImageUrl)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImageThumbnailUrl)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IsFavoriteSnack)
             </td>
