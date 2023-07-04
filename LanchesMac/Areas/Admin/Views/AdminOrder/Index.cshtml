@@ -98,7 +98,8 @@ Total de Pedidos : @Model.TotalRecordCount
             <td>
                 <a asp-action="Edit" asp-route-id="@item.OrderId">Editar</a> |
                 <a asp-action="Details" asp-route-id="@item.OrderId">Detalhes</a> |
-                <a asp-action="Delete" asp-route-id="@item.OrderId">Deletar</a>
+                    <a asp-action="Delete" asp-route-id="@item.OrderId">Deletar</a> |
+                <a asp-action="SnacksOrder" asp-route-id="@item.OrderId">Ver Itens</a>
             </td>
         </tr>
 }
