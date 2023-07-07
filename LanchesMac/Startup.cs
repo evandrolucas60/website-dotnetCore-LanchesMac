@@ -44,6 +44,8 @@ public class Startup
                 });
         });
 
+        services.Configure<ConfigurationImages>(Configuration.GetSection("ProductsImagesFolderName"));
+
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         services.AddScoped(sp => Cart.GetCart(sp));
 
