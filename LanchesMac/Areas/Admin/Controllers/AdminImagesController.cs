@@ -62,5 +62,41 @@ namespace LanchesMac.Areas.Admin.Controllers
 
             return View(ViewData);
         }
+
+        public IActionResult GetImages()
+        {
+            FileManagerModel model = new FileManagerModel();
+
+            var userImagesPath = Path.Combine(_hostingEnvironment.WebRootPath, _myconfig.ProductsImagesFolderName);
+
+            DirectoryInfo dir = new DirectoryInfo(userImagesPath);
+
+            FileInfo[] files = dir.GetFiles();
+
+            model.PathImagesProduct = _myconfig.ProductsImagesFolderName;
+
+            if (files.Length == 0)
+            {
+                ViewData["Erro"] = $"Nenhum arquivo encontrado na pasta {userImagesPath}";
+            }
+
+            model.Files = files;
+
+            return View(model);
+        }
+
+        public IActionResult Deletefile(string fname)
+        {
+            string _imageDelete = Path.Combine(_hostingEnvironment.WebRootPath, _myconfig.ProductsImagesFolderName + "\\", fname);
+
+            if ((System.IO.File.Exists(_imageDelete)))
+            {
+                System.IO.File.Delete(_imageDelete);
+
+                ViewData["Deletado"] = $"Arquivo(s) {_imageDelete} deletado com sucesso";
+            }
+
+            return View("Index");
+        }
     }
 }
