@@ -25,13 +25,13 @@ namespace LanchesMac.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult monthlySales(int days)
+        public IActionResult MonthlySales(int days)
         {
             return View();
         }
 
         [HttpGet]
-        public IActionResult weeklySales(int days)
+        public IActionResult WeeklySales(int days)
         {
             return View();
         }
