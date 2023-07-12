@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LanchesMac.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class AdminChartController : Controller
     {
         private readonly ChartSalesService _chartSalesService;
