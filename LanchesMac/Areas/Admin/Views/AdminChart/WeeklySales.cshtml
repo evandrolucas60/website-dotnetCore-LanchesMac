@@ -11,11 +11,10 @@
     google.charts.load('current', { packages: ['corechart', 'bar'] });
     google.charts.setOnLoadCallback(LoadData);
 
-    //obter os dados
     function LoadData() {
         $.ajax({
             url: '@Url.Action("SnacksSales", "AdminChart")',
-            data: { days: 30 },
+            data: { days: 7 },
             dataType: "json",
             type: "GET",
             error: function (xhr, status, error) {
@@ -41,13 +40,10 @@
         });
         var data = google.visualization.arrayToDataTable(dataArray);
         var options = {
-            title: 'Lanches - Vendas nos últimos 30 dias',
+            title: 'Lanches - Vendas nos últimos 7 dias',
 
-            animation: {
-                duration: 3000,
-                easing: 'out',
-                startup: true
-            },
+            curveType: 'function',
+            legend: {position: 'bottom'},
 
             chartArea: {
                 width: '70%'
@@ -61,9 +57,7 @@
                 title: 'Lanches'
             }
         };
-
-        //preparar a visualização e definindo o tipo de gráfico
-        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
         chart.draw(data, options);
     }
 </script>

@@ -19,7 +19,7 @@ namespace LanchesMac.Areas.Admin.Services
             var snacks = (from pd in _context.OrderDetails
                           join l in _context.Snacks on pd.SnackId equals l.SnackId
                           where pd.Order.OrderDispatched >= date
-                          group pd by new { pd.SnackId, l.SnackName, pd.Quantity }
+                          group pd by new { pd.SnackId, l.SnackName }
                           into g
                           select new
                           {
